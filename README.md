@@ -1,5 +1,8 @@
 # Python Module Nautobot-Secrets-Reader
 
+
+**Work in Progress: Currently only Delinea/Thycothic Secret Server Access is imlemented.**
+
 ### Nautobot Secrets Python Modul
 
 **Nautobot** allows the definition of **Secrets Groups** which contain a list of secrets used to access devices, etc. For security reasons, Nautobot generally does not store sensitive secrets (device access credentials, systems-integration API tokens, etc.) in its own database.
@@ -27,7 +30,7 @@ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-
 
 **Virtual Environment**
 
-Mit `poetry` wird das Python Virtual Environment initialisiert
+`Poetry` is used to setup a Python Virtual Environment.
 
 ```bash
 # Deactivate eventually active virtual environment
@@ -136,9 +139,9 @@ sr = SecretsReader()
 group_data = sr.get_credentials_for_device(DEVICE_NAME)
 ```
 
-Die Daten der Nautobot Secrets Group sind im folgenden zu sehen.
+The variable `group_data` contains the Nautobot Secrets Group information.
 
-Dabei sind die Daten welche mit `secret_...` beginnen, Daten aus Nautobot. Das Feld `value` ist das Ergebnis der Anfrage beim entsprechenden **Secrets Provider**
+Field names starting with `secret_...`, are data from Nautobot. Das field `value` contains the seret value retrieved from the specified `secret_provider`.
 
 
 ```python
@@ -272,11 +275,12 @@ pprint(secrets_per_id)
       'value': 'FLD-Username'}]
 
 
+## Running the Tests
+
 
 ```bash
 %%bash
 # Running the Tests
-
 pytest nautobot_secrets_reader -s
 ```
 
@@ -313,4 +317,5 @@ pytest nautobot_secrets_reader -s
     GENERIC: {'password': 'FLD-PASSWORD', 'secret': 'FLD-PASSWORD', 'username': 'FLD-Username'}
     .
     
-    ============================== 4 passed in 3.26s ===============================
+    ============================== 4 passed in 3.46s ===============================
+
