@@ -1,0 +1,52 @@
+[tool.poetry]
+name = "nautobot-secrets-reader"
+version = "0.9.1"
+description = "Retrieve the Secret-Values of Nautobot Secrets-Groups from the Secret-Server-Provider."
+authors = ["Josef Fuchs <j053ff0x@gmail.com>"]
+homepage = "https://github.com/jifox/secret-server-reader.git"
+keywords = ["nautobot", "delinea", "thycotic", "secret", "secret-server", "secrets", "secrets-provider", "secrets-group", "secrets-reader"]
+readme = "README.md"
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = ">=3.7,<4.0.0"
+python-dotenv = ">=0.1.0,<1.0.0"
+types-requests = ">=2.0.0, <3.0.0"
+requests = ">=2.0.0, <3.0.0"
+pynautobot = ">=1.1.2,<2.0.0"
+python-tss-sdk = ">=1.1.0,<2.0"
+
+[tool.poetry.dev-dependencies]
+black = "*"
+pylama = "*"
+pytest = "*"
+mypy = "*"
+jupyterlab = "^3.4.4"
+PyYAML = "^6.0"
+"ruamel.yaml" = "^0.17.21"
+ipykernel = "^6.15.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+target-version = ['py36']
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+)
+'''
