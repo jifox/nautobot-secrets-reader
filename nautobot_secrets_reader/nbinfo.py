@@ -84,7 +84,7 @@ class SecretGroupinfo:
 
         Returns:
             Dict[str, Any]: The Nautobot secrets-group information.
-        """            
+        """
         device = self.nb_connection.dcim.devices.get(name=device_name)  # type: ignore
         if device is not None and device.secrets_group is None:
             # Get the master device of current virtual chassis if exists

@@ -2,7 +2,7 @@
 from typing import Any, Callable, Dict, List, Tuple, Optional, Union
 
 from .nbinfo import SecretGroupinfo
-from .thycotic import ThycoticSecretServerSecretsReader
+from .delinea import ThycoticSecretServerSecretsReader
 
 import logging
 
@@ -180,7 +180,7 @@ class SecretsReader:
             credentials (List[Dict[str, Any]]): The secrets_group_info as returned by
                     get_credentials_for_secrets_group_id() or
                     get_credentials_for_device().
-            access_type (str): The access type. 
+            access_type (str): The access type.
                     see:
                         class SecretsGroupAccessTypeChoices(ChoiceSet) in
                         https://github.com/nautobot/nautobot/blob/develop/nautobot/extras/choices.py

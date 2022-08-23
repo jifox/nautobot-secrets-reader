@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nautobot-secrets-reader"
-version = "0.9.1"
+version = "1.0.0"
 description = "Retrieve the Secret-Values of Nautobot Secrets-Groups from the Secret-Server-Provider."
 authors = ["Josef Fuchs <j053ff0x@gmail.com>"]
 homepage = "https://github.com/jifox/secret-server-reader.git"
@@ -14,7 +14,7 @@ python-dotenv = ">=0.1.0,<1.0.0"
 types-requests = ">=2.0.0, <3.0.0"
 requests = ">=2.0.0, <3.0.0"
 pynautobot = ">=1.1.2,<2.0.0"
-python-tss-sdk = ">=1.1.0,<2.0"
+python-tss-sdk = ">=1.2.0,<2.0"
 
 [tool.poetry.dev-dependencies]
 black = "*"

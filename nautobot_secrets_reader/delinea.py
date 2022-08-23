@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 from dotenv import load_dotenv
 
-from thycotic.secrets.server import (
+from delinea.secrets.server import (
     AccessTokenAuthorizer,
     PasswordGrantAuthorizer,
     DomainPasswordGrantAuthorizer,
@@ -157,19 +157,19 @@ class ThycoticSecretServerSecretsReader:
 
             # Get the client.
             if cloud_based:
-                thycotic = SecretServerCloud(tenant=tenant, authorizer=thy_authorizer)
+                delinea = SecretServerCloud(tenant=tenant, authorizer=thy_authorizer)
             else:
-                thycotic = SecretServer(base_url=base_url, authorizer=thy_authorizer)
+                delinea = SecretServer(base_url=base_url, authorizer=thy_authorizer)
 
             # Attempt to retrieve the secret.
             try:
                 if secret_id is not None:
-                    secret = ServerSecret(**thycotic.get_secret(secret_id))
+                    secret = ServerSecret(**delinea.get_secret(secret_id))
                     self._secret = secret
                     self._param_secret_id = str(secret_id)
                     self._param_secret_path = None
                 else:
-                    secret = ServerSecret(**thycotic.get_secret_by_path(secret_path))
+                    secret = ServerSecret(**delinea.get_secret_by_path(secret_path))
                     self._secret = secret
                     self._param_secret_id = None
                     self._param_secret_path = str(secret_path)

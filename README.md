@@ -57,14 +57,14 @@ This can be done in the `.env` file to
 # Settings for Nautobot Access
 #     e.g. Server: https://nautobot-dev.example.local:8080
 #
-NAUTOBOT_API_ENDPOINT|https://nautobot-prod.example.local:8083
-NAUTOBOT_TOKEN|1234567890123456789012345678901234567890
-NAUTOBOT_API_VERSION|1.3
+NAUTOBOT_API_ENDPOINT=https://nautobot-prod.example.local:8083
+NAUTOBOT_TOKEN=1234567890123456789012345678901234567890
+NAUTOBOT_API_VERSION=1.4
 
 
 #############################################################################
-# Settings for Thycotic Secret-Server-Reader
-#     https://github.com/thycotic/python-tss-sdk
+# Settings for Delinea/Thycotic Secret-Server-Reader
+#     https://github.com/DelineaXPM/python-tss-sdk
 
 SECRET_SERVER_BASE_URL='https://pw.example.local/SecretServer'
 
@@ -285,9 +285,9 @@ pytest nautobot_secrets_reader -s
 ```
 
     ============================= test session starts ==============================
-    platform linux -- Python 3.9.10, pytest-7.0.1, pluggy-1.0.0
+    platform linux -- Python 3.9.10, pytest-7.1.2, pluggy-1.0.0
     rootdir: /home/ansible/src/secret-server-reader
-    plugins: pylama-7.7.1, anyio-3.6.1
+    plugins: pylama-8.4.1, anyio-3.6.1
     collected 4 items
     
     nautobot_secrets_reader/tests/test_secread.py ...[{'access_type': 'GENERIC',
@@ -317,5 +317,5 @@ pytest nautobot_secrets_reader -s
     GENERIC: {'password': 'FLD-PASSWORD', 'secret': 'FLD-PASSWORD', 'username': 'FLD-Username'}
     .
     
-    ============================== 4 passed in 3.46s ===============================
+    ============================== 4 passed in 3.42s ===============================
 
