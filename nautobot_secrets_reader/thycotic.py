@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 from dotenv import load_dotenv
 
-from thycotic.secrets.server import (
+from delinea.secrets.server import (
     AccessTokenAuthorizer,
     PasswordGrantAuthorizer,
     DomainPasswordGrantAuthorizer,

@@ -19,15 +19,13 @@ class SecretGroupinfo:
         secrets_group(id: $secrets_group_id) {
             id
             name
-            slug
-            secretsgroupassociation_set {
+            secrets_group_associations {
                 access_type
                 secret_type
                 secret {
                     id
                     provider
                     name
-                    slug
                     parameters
                     description
                 }
@@ -42,7 +40,6 @@ class SecretGroupinfo:
         # Get Nautobot server account information
         self.nautobot_api_endpoint = os.getenv("NAUTOBOT_API_ENDPOINT")
         self.nautobot_token = os.getenv("NAUTOBOT_TOKEN")
-        self.nautobot_api_version = os.getenv("NAUTOBOT_API_VERSION")
         self.nautobot = None
 
     @property

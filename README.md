@@ -98,7 +98,6 @@ REQUESTS_CA_BUNDLE='/etc/ssl/certs/ca-certificates.crt'
 
 Access to the secrets of a device can be seen in the following example:
 
-
 ```python
 from nautobot_secrets_reader.secread import SecretsReader
 ```
@@ -131,7 +130,6 @@ class SecretsReader:
 
 ```
 
-
 ```python
 DEVICE_NAME = "ATKPTEST"
 
@@ -142,7 +140,6 @@ group_data = sr.get_credentials_for_device(DEVICE_NAME)
 The variable `group_data` contains the Nautobot Secrets Group information.
 
 Field names starting with `secret_...`, are data from Nautobot. Das field `value` contains the seret value retrieved from the specified `secret_provider`.
-
 
 ```python
 # Imports only for this document
@@ -222,7 +219,6 @@ class SecretsReader:
         """
 ```
 
-
 ```python
 generic = sr.filter_access_type(group_data, "GENERIC")
 
@@ -238,12 +234,10 @@ pprint(generic)
 
 The secrets for a particular Secrets Group can be selected from Nautobot by Group-ID as follows:
 
-
 ```python
 group_id = "43974686-e26c-40a5-8951-854a609be812"
 secrets_per_id = sr.get_credentials_for_secrets_group_id(group_id)
 ```
-
 
 ```python
 pprint(secrets_per_id)
@@ -276,7 +270,6 @@ pprint(secrets_per_id)
 
 
 ## Running the Tests
-
 
 ```bash
 %%bash
@@ -319,3 +312,7 @@ pytest nautobot_secrets_reader -s
     
     ============================== 4 passed in 3.46s ===============================
 
+
+```python
+
+```
