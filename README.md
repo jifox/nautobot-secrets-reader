@@ -14,6 +14,12 @@ refere to:
 * Nautobot Secrets Dokumentation:  <https://nautobot.readthedocs.io/en/latest/core-functionality/secrets>
 * Nautobot-Plugin-Secrets-Providers: <https://github.com/nautobot/nautobot-plugin-secrets-providers>
 
+## Compatibility Matrix
+| Nautobot Version | Nautobot-Secrets-Reader Version | Supported Secret Providers | Git Branch |
+|------------------|-------------------|----------------------------------------|------------|
+| >=1.4.0, <2.0    | >=1.0.0,<2.0.0    | Delinea/Thycotic Secret Server         | release-1.0  |
+| >=2.0.0, <3.0    | >=2.0.0,<3.0.0    | Delinea/Thycotic Secret Server         | release-2.0  |
+
 
 ## Development Environment Installation
 
@@ -344,6 +350,40 @@ pprint(secrets_per_id)
 pytest nautobot_secrets_reader -s
 ```
 
+    [1m============================= test session starts ==============================[0m
+    platform linux -- Python 3.12.9, pytest-8.3.5, pluggy-1.5.0
+    rootdir: /home/ansible/dev/nautobot-secrets-reader
+    configfile: pyproject.toml
+    plugins: anyio-4.9.0, pylama-8.4.1
+    collected 4 items
+    
+    nautobot_secrets_reader/tests/test_secread.py [32m.[0m[32m.[0m[32m.[0m[{'access_type': 'GENERIC',
+      'secret_description': '',
+      'secret_id': 'f5194ff8-5ffb-4b0e-a77f-ee7a9a3fd5e5',
+      'secret_name': 'Test-Password-Path',
+      'secret_provider': 'delinea-tss-path',
+      'secret_type': 'PASSWORD',
+      'value': 'FLD-PASSWORD'},
+     {'access_type': 'GENERIC',
+      'secret_description': '',
+      'secret_id': 'f5194ff8-5ffb-4b0e-a77f-ee7a9a3fd5e5',
+      'secret_name': 'Test-Password-Path',
+      'secret_provider': 'delinea-tss-path',
+      'secret_type': 'SECRET',
+      'value': 'FLD-PASSWORD'},
+     {'access_type': 'GENERIC',
+      'secret_description': 'Username',
+      'secret_id': '3f3a7832-fe45-46b3-93d5-eafbd97de565',
+      'secret_name': 'TEST-User-ID',
+      'secret_provider': 'delinea-tss-id',
+      'secret_type': 'USERNAME',
+      'value': 'FLD-Username'}]
+    GENERIC: {'password': 'FLD-PASSWORD', 'secret': 'FLD-PASSWORD', 'username': 'FLD-Username'}
+    [32m.[0m
+    
+    [32m============================== [32m[1m4 passed[0m[32m in 8.45s[0m[32m ===============================[0m
+
+
 ```
 $ pytest nautobot_secrets_reader -s
 ================================================================================================================ test session starts =================================================================================================================
@@ -385,9 +425,6 @@ GENERIC: {'password': 'FLD-PASSWORD', 'secret': 'FLD-PASSWORD', 'username': 'FLD
 
 ```
 
-    1750.86s - pydevd: Sending message related to process being replaced timed-out after 5 seconds
-
-
     [NbConvertApp] Converting notebook README.ipynb to markdown
-    [NbConvertApp] Writing 10519 bytes to README.md
+    [NbConvertApp] Writing 13762 bytes to README.md
 
