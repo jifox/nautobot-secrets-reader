@@ -166,6 +166,22 @@ sr = SecretsReader()
 group_data = sr.get_credentials_for_device(DEVICE_NAME)
 ```
 
+
+    ---------------------------------------------------------------------------
+
+    NameError                                 Traceback (most recent call last)
+
+    Cell In[3], line 4
+          1 DEVICE_NAME = "ATKPTEST"
+          3 sr = SecretsReader()
+    ----> 4 for gd in group_data:
+          5     if gd["secret_type"] in ["PASSWORD", "SECRET", "USERNAME"]:
+          6         gd["value"] = "(REDACTED)"
+
+
+    NameError: name 'group_data' is not defined
+
+
 The variable `group_data` contains the Nautobot Secrets Group information.
 
 Field names starting with `secret_...`, are data from Nautobot. Das field `value` contains the seret value retrieved from the specified `secret_provider`.
@@ -173,73 +189,11 @@ Field names starting with `secret_...`, are data from Nautobot. Das field `value
 ```python
 # Imports only for this document
 from pprint import pprint
+for gd in group_data:
+    if gd["secret_type"] in ["PASSWORD", "SECRET", "USERNAME"]:
+        gd["value"] = "(REDACTED)"
 pprint(group_data)
 ```
-
-    [{'access_type': 'GENERIC',
-      'secret_description': 'Cisco Switches ATBRKHKP',
-      'secret_id': '63ced5a8-801f-4321-bdad-d0e17559377b',
-      'secret_name': 'Cisco Switches PWD - ATBRKHKP - [01]',
-      'secret_provider': 'delinea-tss-id',
-      'secret_type': 'PASSWORD',
-      'value': 'Deis-Fa22back-Pa55w0rd'},
-     {'access_type': 'GENERIC',
-      'secret_description': 'Cisco Switches Enable Passwort',
-      'secret_id': '330b2983-3f33-4b00-be4f-258e642e6fac',
-      'secret_name': 'Cisco Switches Enable - ATBRKPKH - [01]',
-      'secret_provider': 'delinea-tss-id',
-      'secret_type': 'SECRET',
-      'value': 'rfc791'},
-     {'access_type': 'GENERIC',
-      'secret_description': 'Cisco Switches ATBRKHKP',
-      'secret_id': 'a7b50e47-25cb-4f07-8641-ff3eda42effe',
-      'secret_name': 'Cisco Switches - ATBRKHKO - USR - [01]',
-      'secret_provider': 'delinea-tss-id',
-      'secret_type': 'USERNAME',
-      'value': 'admin'},
-     {'access_type': 'HTTP_S_',
-      'secret_description': 'Cisco Switches ATBRKHKP',
-      'secret_id': '63ced5a8-801f-4321-bdad-d0e17559377b',
-      'secret_name': 'Cisco Switches PWD - ATBRKHKP - [01]',
-      'secret_provider': 'delinea-tss-id',
-      'secret_type': 'PASSWORD',
-      'value': 'Deis-Fa22back-Pa55w0rd'},
-     {'access_type': 'HTTP_S_',
-      'secret_description': 'Cisco Switches Enable Passwort',
-      'secret_id': '330b2983-3f33-4b00-be4f-258e642e6fac',
-      'secret_name': 'Cisco Switches Enable - ATBRKPKH - [01]',
-      'secret_provider': 'delinea-tss-id',
-      'secret_type': 'SECRET',
-      'value': 'rfc791'},
-     {'access_type': 'HTTP_S_',
-      'secret_description': 'Cisco Switches ATBRKHKP',
-      'secret_id': 'a7b50e47-25cb-4f07-8641-ff3eda42effe',
-      'secret_name': 'Cisco Switches - ATBRKHKO - USR - [01]',
-      'secret_provider': 'delinea-tss-id',
-      'secret_type': 'USERNAME',
-      'value': 'admin'},
-     {'access_type': 'SSH',
-      'secret_description': 'Cisco Switches ATBRKHKP',
-      'secret_id': '63ced5a8-801f-4321-bdad-d0e17559377b',
-      'secret_name': 'Cisco Switches PWD - ATBRKHKP - [01]',
-      'secret_provider': 'delinea-tss-id',
-      'secret_type': 'PASSWORD',
-      'value': 'Deis-Fa22back-Pa55w0rd'},
-     {'access_type': 'SSH',
-      'secret_description': 'Cisco Switches Enable Passwort',
-      'secret_id': '330b2983-3f33-4b00-be4f-258e642e6fac',
-      'secret_name': 'Cisco Switches Enable - ATBRKPKH - [01]',
-      'secret_provider': 'delinea-tss-id',
-      'secret_type': 'SECRET',
-      'value': 'rfc791'},
-     {'access_type': 'SSH',
-      'secret_description': 'Cisco Switches ATBRKHKP',
-      'secret_id': 'a7b50e47-25cb-4f07-8641-ff3eda42effe',
-      'secret_name': 'Cisco Switches - ATBRKHKO - USR - [01]',
-      'secret_provider': 'delinea-tss-id',
-      'secret_type': 'USERNAME',
-      'value': 'admin'}]
-
 
 ## Filter the Results
 
@@ -302,9 +256,6 @@ if printable["secret"] is not None:
 pprint(printable)
 ```
 
-    {'password': 'MyPassword', 'secret': 'MySecret', 'username': 'MyUsername'}
-
-
 ## Nautobot Group-ID Secrets
 
 The secrets for a particular Secrets Group can be selected from Nautobot by Group-ID as follows:
@@ -319,29 +270,6 @@ secrets_per_id = sr.get_credentials_for_secrets_group_id(group_id)
 pprint(secrets_per_id)
 ```
 
-    [{'access_type': 'GENERIC',
-      'secret_description': '',
-      'secret_id': 'f5194ff8-5ffb-4b0e-a77f-ee7a9a3fd5e5',
-      'secret_name': 'Test-Password-Path',
-      'secret_provider': 'delinea-tss-path',
-      'secret_type': 'PASSWORD',
-      'value': 'FLD-PASSWORD'},
-     {'access_type': 'GENERIC',
-      'secret_description': '',
-      'secret_id': 'f5194ff8-5ffb-4b0e-a77f-ee7a9a3fd5e5',
-      'secret_name': 'Test-Password-Path',
-      'secret_provider': 'delinea-tss-path',
-      'secret_type': 'SECRET',
-      'value': 'FLD-PASSWORD'},
-     {'access_type': 'GENERIC',
-      'secret_description': 'Username',
-      'secret_id': '3f3a7832-fe45-46b3-93d5-eafbd97de565',
-      'secret_name': 'TEST-User-ID',
-      'secret_provider': 'delinea-tss-id',
-      'secret_type': 'USERNAME',
-      'value': 'FLD-Username'}]
-
-
 ## Running the Tests
 
 ```bash
@@ -349,40 +277,6 @@ pprint(secrets_per_id)
 # Running the Tests
 pytest nautobot_secrets_reader -s
 ```
-
-    [1m============================= test session starts ==============================[0m
-    platform linux -- Python 3.12.9, pytest-8.3.5, pluggy-1.5.0
-    rootdir: /home/ansible/dev/nautobot-secrets-reader
-    configfile: pyproject.toml
-    plugins: anyio-4.9.0, pylama-8.4.1
-    collected 4 items
-    
-    nautobot_secrets_reader/tests/test_secread.py [32m.[0m[32m.[0m[32m.[0m[{'access_type': 'GENERIC',
-      'secret_description': '',
-      'secret_id': 'f5194ff8-5ffb-4b0e-a77f-ee7a9a3fd5e5',
-      'secret_name': 'Test-Password-Path',
-      'secret_provider': 'delinea-tss-path',
-      'secret_type': 'PASSWORD',
-      'value': 'FLD-PASSWORD'},
-     {'access_type': 'GENERIC',
-      'secret_description': '',
-      'secret_id': 'f5194ff8-5ffb-4b0e-a77f-ee7a9a3fd5e5',
-      'secret_name': 'Test-Password-Path',
-      'secret_provider': 'delinea-tss-path',
-      'secret_type': 'SECRET',
-      'value': 'FLD-PASSWORD'},
-     {'access_type': 'GENERIC',
-      'secret_description': 'Username',
-      'secret_id': '3f3a7832-fe45-46b3-93d5-eafbd97de565',
-      'secret_name': 'TEST-User-ID',
-      'secret_provider': 'delinea-tss-id',
-      'secret_type': 'USERNAME',
-      'value': 'FLD-Username'}]
-    GENERIC: {'password': 'FLD-PASSWORD', 'secret': 'FLD-PASSWORD', 'username': 'FLD-Username'}
-    [32m.[0m
-    
-    [32m============================== [32m[1m4 passed[0m[32m in 8.45s[0m[32m ===============================[0m
-
 
 ```
 $ pytest nautobot_secrets_reader -s
@@ -424,7 +318,3 @@ GENERIC: {'password': 'FLD-PASSWORD', 'secret': 'FLD-PASSWORD', 'username': 'FLD
 !jupyter nbconvert --to markdown --output README.md --TemplateExporter.exclude_input_prompt=True --TemplateExporter.exclude_output_prompt=True README.ipynb 
 
 ```
-
-    [NbConvertApp] Converting notebook README.ipynb to markdown
-    [NbConvertApp] Writing 13762 bytes to README.md
-
