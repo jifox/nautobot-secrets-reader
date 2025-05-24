@@ -14,12 +14,6 @@ refere to:
 * Nautobot Secrets Dokumentation:  <https://nautobot.readthedocs.io/en/latest/core-functionality/secrets>
 * Nautobot-Plugin-Secrets-Providers: <https://github.com/nautobot/nautobot-plugin-secrets-providers>
 
-## Compatibility Matrix
-| Nautobot Version | Nautobot-Secrets-Reader Version | Supported Secret Providers | Git Branch |
-|------------------|-------------------|----------------------------------------|------------|
-| >=1.4.0, <2.0    | >=1.0.0,<2.0.0    | Delinea/Thycotic Secret Server         | release-1.0  |
-| >=2.0.0, <3.0    | >=2.0.0,<3.0.0    | Delinea/Thycotic Secret Server         | release-2.0  |
-
 
 ## Development Environment Installation
 
@@ -31,19 +25,8 @@ see: [Poetry Docomentation](https://python-poetry.org/docs/)
 At the time of this writing, Poetry is installed using the following command:
 
 ```bash
-# Optionally set the CA-Bundle for SSL connections
-export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
-
-# Install Poetry
-POETRY_VERSION=1.8.5 curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
-
-# Add Poetry to PATH
-export PATH="$HOME/.local/bin:$PATH"
-
-# Add the dotenv plugin to Poetry that loads .env files automatically
-poetry self add poetry-dotenv-plugin
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
 ```
-
 
 **Virtual Environment**
 
@@ -54,7 +37,7 @@ poetry self add poetry-dotenv-plugin
 deactivate
 
 # Specify python version to use
-poetry env use 3.12
+poetry env use 3.9
 
 # Install modul and development packages
 poetry install
@@ -116,19 +99,6 @@ REQUESTS_CA_BUNDLE='/etc/ssl/certs/ca-certificates.crt'
 Access to the secrets of a device can be seen in the following example:
 
 ```python
-# Initialize the environment variables for the project
-from dotenv import load_dotenv
-load_dotenv(".env", override=True)
-```
-
-
-
-
-    True
-
-
-
-```python
 from nautobot_secrets_reader.secread import SecretsReader
 ```
 
@@ -150,6 +120,7 @@ class SecretsReader:
                         'secret_id': '63ced5a8-801f-4321-bdad-d0e17559377b',
                         'secret_name': 'Demo Switches Password PWD',
                         'secret_provider': 'thycotic-tss-path',
+                        'secret_slug': 'demo-switches-password-pwd',
                         'secret_type': 'PASSWORD',
                         'value': 'The-Password-Stored-in-Vault'},
                     ]
@@ -173,9 +144,6 @@ Field names starting with `secret_...`, are data from Nautobot. Das field `value
 ```python
 # Imports only for this document
 from pprint import pprint
-for gd in group_data:
-    if gd["secret_type"] in ["PASSWORD", "SECRET", "USERNAME"]:
-        gd["value"] = "(REDACTED)"
 pprint(group_data)
 ```
 
@@ -291,18 +259,9 @@ class SecretsReader:
 ```
 
 ```python
-from string import printable
-
-
 generic = sr.filter_access_type(group_data, "GENERIC")
-printable = generic
-if printable["password"] is not None:
-    printable["password"] = "MyPassword"
-if printable["username"] is not None:
-    printable["username"] = "MyUsername"
-if printable["secret"] is not None:
-    printable["secret"] = "MySecret"
-pprint(printable)
+
+pprint(generic)
 ```
 
     {'password': 'MyPassword', 'secret': 'MySecret', 'username': 'MyUsername'}
@@ -313,7 +272,6 @@ pprint(printable)
 The secrets for a particular Secrets Group can be selected from Nautobot by Group-ID as follows:
 
 ```python
-# This test Secret Group-ID contains only placeholder credentials
 group_id = "43974686-e26c-40a5-8951-854a609be812"
 secrets_per_id = sr.get_credentials_for_secrets_group_id(group_id)
 ```
@@ -326,21 +284,24 @@ pprint(secrets_per_id)
       'secret_description': '',
       'secret_id': 'f5194ff8-5ffb-4b0e-a77f-ee7a9a3fd5e5',
       'secret_name': 'Test-Password-Path',
-      'secret_provider': 'delinea-tss-path',
+      'secret_provider': 'thycotic-tss-path',
+      'secret_slug': 'test-password-path',
       'secret_type': 'PASSWORD',
       'value': 'FLD-PASSWORD'},
      {'access_type': 'GENERIC',
       'secret_description': '',
       'secret_id': 'f5194ff8-5ffb-4b0e-a77f-ee7a9a3fd5e5',
       'secret_name': 'Test-Password-Path',
-      'secret_provider': 'delinea-tss-path',
+      'secret_provider': 'thycotic-tss-path',
+      'secret_slug': 'test-password-path',
       'secret_type': 'SECRET',
       'value': 'FLD-PASSWORD'},
      {'access_type': 'GENERIC',
       'secret_description': 'Username',
       'secret_id': '3f3a7832-fe45-46b3-93d5-eafbd97de565',
       'secret_name': 'TEST-User-ID',
-      'secret_provider': 'delinea-tss-id',
+      'secret_provider': 'thycotic-tss-id',
+      'secret_slug': 'test-test-user-id',
       'secret_type': 'USERNAME',
       'value': 'FLD-Username'}]
 
@@ -353,38 +314,38 @@ pprint(secrets_per_id)
 pytest nautobot_secrets_reader -s
 ```
 
-    [1m============================= test session starts ==============================[0m
-    platform linux -- Python 3.12.10, pytest-8.3.5, pluggy-1.5.0
-    rootdir: /home/ansible/dev/nautobot-secrets-reader
-    configfile: pyproject.toml
-    plugins: anyio-4.9.0, pylama-8.4.1
+    ============================= test session starts ==============================
+    platform linux -- Python 3.9.10, pytest-7.0.1, pluggy-1.0.0
+    rootdir: /home/ansible/src/secret-server-reader
+    plugins: pylama-7.7.1, anyio-3.6.1
     collected 4 items
     
-    nautobot_secrets_reader/tests/test_secread.py [32m.[0m[32m.[0m[32m.[0m[{'access_type': 'GENERIC',
+    nautobot_secrets_reader/tests/test_secread.py ...[{'access_type': 'GENERIC',
       'secret_description': '',
       'secret_id': 'f5194ff8-5ffb-4b0e-a77f-ee7a9a3fd5e5',
       'secret_name': 'Test-Password-Path',
-      'secret_provider': 'delinea-tss-path',
+      'secret_provider': 'thycotic-tss-path',
+      'secret_slug': 'test-password-path',
       'secret_type': 'PASSWORD',
       'value': 'FLD-PASSWORD'},
      {'access_type': 'GENERIC',
       'secret_description': '',
       'secret_id': 'f5194ff8-5ffb-4b0e-a77f-ee7a9a3fd5e5',
       'secret_name': 'Test-Password-Path',
-      'secret_provider': 'delinea-tss-path',
+      'secret_provider': 'thycotic-tss-path',
+      'secret_slug': 'test-password-path',
       'secret_type': 'SECRET',
       'value': 'FLD-PASSWORD'},
      {'access_type': 'GENERIC',
       'secret_description': 'Username',
       'secret_id': '3f3a7832-fe45-46b3-93d5-eafbd97de565',
       'secret_name': 'TEST-User-ID',
-      'secret_provider': 'delinea-tss-id',
+      'secret_provider': 'thycotic-tss-id',
+      'secret_slug': 'test-test-user-id',
       'secret_type': 'USERNAME',
       'value': 'FLD-Username'}]
     GENERIC: {'password': 'FLD-PASSWORD', 'secret': 'FLD-PASSWORD', 'username': 'FLD-Username'}
-    [32m.[0m
-    
-    [32m============================== [32m[1m4 passed[0m[32m in 7.68s[0m[32m ===============================[0m
+    ============================== 4 passed in 7.68s ===============================
 
 
 ```
@@ -395,36 +356,38 @@ rootdir: /home/ansible/dev/nautobot-secrets-reader
 configfile: pyproject.toml
 plugins: anyio-4.9.0, pylama-8.4.1
 collected 4 items                                                                                                                                                                                                                                    
+    [pytest] collecting ... collected 4 items
 
-nautobot_secrets_reader/tests/test_secread.py ...[{'access_type': 'GENERIC',
-  'secret_description': '',
-  'secret_id': 'f5194ff8-5ffb-4b0e-a77f-ee7a9a3fd5e5',
-  'secret_name': 'Test-Password-Path',
-  'secret_provider': 'delinea-tss-path',
-  'secret_type': 'PASSWORD',
-  'value': 'FLD-PASSWORD'},
- {'access_type': 'GENERIC',
-  'secret_description': '',
-  'secret_id': 'f5194ff8-5ffb-4b0e-a77f-ee7a9a3fd5e5',
-  'secret_name': 'Test-Password-Path',
-  'secret_provider': 'delinea-tss-path',
-  'secret_type': 'SECRET',
-  'value': 'FLD-PASSWORD'},
- {'access_type': 'GENERIC',
-  'secret_description': 'Username',
-  'secret_id': '3f3a7832-fe45-46b3-93d5-eafbd97de565',
-  'secret_name': 'TEST-User-ID',
-  'secret_provider': 'delinea-tss-id',
-  'secret_type': 'USERNAME',
-  'value': 'FLD-Username'}]
-GENERIC: {'password': 'FLD-PASSWORD', 'secret': 'FLD-PASSWORD', 'username': 'FLD-Username'}
-.
+    nautobot_secrets_reader/tests/test_secread.py ...[{'access_type': 'GENERIC',
+      'secret_description': '',
+      'secret_id': 'f5194ff8-5ffb-4b0e-a77f-ee7a9a3fd5e5',
+      'secret_name': 'Test-Password-Path',
+      'secret_provider': 'thycotic-tss-path',
+      'secret_slug': 'test-password-path',
+      'secret_type': 'PASSWORD',
+      'value': 'FLD-PASSWORD'},
+     {'access_type': 'GENERIC',
+      'secret_description': '',
+      'secret_id': 'f5194ff8-5ffb-4b0e-a77f-ee7a9a3fd5e5',
+      'secret_name': 'Test-Password-Path',
+      'secret_provider': 'thycotic-tss-path',
+      'secret_slug': 'test-password-path',
+      'secret_type': 'SECRET',
+      'value': 'FLD-PASSWORD'},
+     {'access_type': 'GENERIC',
+      'secret_description': 'Username',
+      'secret_id': '3f3a7832-fe45-46b3-93d5-eafbd97de565',
+      'secret_name': 'TEST-User-ID',
+      'secret_provider': 'thycotic-tss-id',
+      'secret_slug': 'test-test-user-id',
+      'secret_type': 'USERNAME',
+      'value': 'FLD-Username'}]
+    GENERIC: {'password': 'FLD-PASSWORD', 'secret': 'FLD-PASSWORD', 'username': 'FLD-Username'}
+    ============================== 4 passed in 3.46s ===============================
+>>>>>>> 784b99f (Update Documentation)
 
-================================================================================================================= 4 passed in 8.08s ==================================================================================================================
-```
 
 ```python
-!jupyter nbconvert --to markdown --output README.md --TemplateExporter.exclude_input_prompt=True --TemplateExporter.exclude_output_prompt=True README.ipynb 
 
 ```
 
