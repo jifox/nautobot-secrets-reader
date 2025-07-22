@@ -93,21 +93,20 @@ class SecretsReader:
             return []
 
         result: List[Dict[str, Any]] = []
-        for sec_info in secrets_group_data["secrets_group"]["secretsgroupassociation_set"]:
+        for sec_info in secrets_group_data["secrets_group"]["secrets_group_associations"]:
             provider = sec_info["secret"]["provider"]
 
             secrets_info = dict(
                 access_type=sec_info["access_type"],  #           e.g.: 'SSH'
                 secret_type=sec_info["secret_type"],  #                 'PASSWORD'
                 secret_name=sec_info["secret"]["name"],  #              'Checkpoint FWDC - USR'
-                secret_slug=sec_info["secret"]["slug"],  #              'checkpoint_fwdc-usr'
                 secret_id=sec_info["secret"]["id"],  #                  '7d195c23-2e2c-4ced-b496-b7e524205a62'
                 secret_provider=sec_info["secret"]["provider"],  #      'thycotic-tss-id'
                 secret_description=sec_info["secret"]["description"],  # 'Datacenter Firewall Cluster'
                 value="",  # The empty secret
             )
             func: Callable[[Dict[Any, str]], str] = None  # type: ignore
-            if provider in ["thycotic-tss-id", "thycotic-tss-path"]:
+            if provider in ["delinea-tss-id", "delinea-tss-path"]:
                 func = self.get_secret_tss
             # elif provider in ...
             else:
@@ -132,7 +131,6 @@ class SecretsReader:
                         'secret_id': '63ced5a8-801f-4321-bdad-d0e17559377b',
                         'secret_name': 'Cisco Switches Fallback Password PWD',
                         'secret_provider': 'thycotic-tss-path',
-                        'secret_slug': 'cisco-switches-fallback-password-pwd',
                         'secret_type': 'PASSWORD',
                         'value': 'The-Password-Stored-in-Vault'},
                     ]
