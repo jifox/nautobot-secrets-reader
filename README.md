@@ -57,14 +57,14 @@ This can be done in the `.env` file to
 # Settings for Nautobot Access
 #     e.g. Server: https://nautobot-dev.example.local:8080
 #
-NAUTOBOT_API_ENDPOINT|https://nautobot-prod.example.local:8083
-NAUTOBOT_TOKEN|1234567890123456789012345678901234567890
-NAUTOBOT_API_VERSION|1.3
+NAUTOBOT_API_ENDPOINT=https://nautobot-prod.example.local:8083
+NAUTOBOT_TOKEN=1234567890123456789012345678901234567890
+NAUTOBOT_API_VERSION=1.4
 
 
 #############################################################################
-# Settings for Thycotic Secret-Server-Reader
-#     https://github.com/thycotic/python-tss-sdk
+# Settings for Delinea/Thycotic Secret-Server-Reader
+#     https://github.com/DelineaXPM/python-tss-sdk
 
 SECRET_SERVER_BASE_URL='https://pw.example.local/SecretServer'
 
@@ -314,10 +314,11 @@ pprint(secrets_per_id)
 pytest nautobot_secrets_reader -s
 ```
 
-    ============================= test session starts ==============================
-    platform linux -- Python 3.9.10, pytest-7.0.1, pluggy-1.0.0
-    rootdir: /home/ansible/src/secret-server-reader
-    plugins: pylama-7.7.1, anyio-3.6.1
+    [1m============================= test session starts ==============================[0m
+    platform linux -- Python 3.12.10, pytest-8.3.5, pluggy-1.5.0
+    rootdir: /home/ansible/dev/nautobot-secrets-reader
+    configfile: pyproject.toml
+    plugins: anyio-4.9.0, pylama-8.4.1
     collected 4 items
     
     nautobot_secrets_reader/tests/test_secread.py ...[{'access_type': 'GENERIC',
@@ -345,7 +346,12 @@ pytest nautobot_secrets_reader -s
       'secret_type': 'USERNAME',
       'value': 'FLD-Username'}]
     GENERIC: {'password': 'FLD-PASSWORD', 'secret': 'FLD-PASSWORD', 'username': 'FLD-Username'}
-    ============================== 4 passed in 7.68s ===============================
+    [32m.[0m
+    
+<<<<<<< HEAD
+    ============================== 4 passed in 3.42s ===============================
+=======
+    [32m============================== [32m[1m4 passed[0m[32m in 7.68s[0m[32m ===============================[0m
 
 
 ```
@@ -393,4 +399,5 @@ collected 4 items
 
     [NbConvertApp] Converting notebook README.ipynb to markdown
     [NbConvertApp] Writing 10785 bytes to README.md
+>>>>>>> develop
 
