@@ -16,7 +16,7 @@ requests = "*"
 pynautobot = "*"
 python-tss-sdk = "*"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 black = "*"
 pylama = "*"
 pytest = "*"
